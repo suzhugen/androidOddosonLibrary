@@ -19,7 +19,6 @@ public class RoundImageView extends ImageView {
 	
 	public RoundImageView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public RoundImageView(Context context, AttributeSet attrs) {
