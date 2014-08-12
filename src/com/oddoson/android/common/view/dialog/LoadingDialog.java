@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -57,6 +58,11 @@ public class LoadingDialog extends Dialog {
 	public LoadingDialog(Context context) {
 		super(context, com.oddoson.android.common.R.style.Dialog_bocop);
 		init();
+	}
+	public LoadingDialog(Context context,String title) {
+		super(context, com.oddoson.android.common.R.style.Dialog_bocop);
+		init();
+		setTitle(title);
 	}
 
 	private void init() {

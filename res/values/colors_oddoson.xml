@@ -27,7 +27,7 @@
     <!-- 自定义控件侧边栏需要用到的颜色End -->
     
     <!-- 自定义Loding_Dialog_Start -->
-    <color name="bocop_dialog_bg">#77000000</color>
+    <color name="bocop_dialog_bg">#aa000000</color>
     <!-- 自定义Loding_Dialog_End -->
 
     <color name="white">#FFFFFF</color>

@@ -25,9 +25,6 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <!-- 自定义Gallery+ListView页面用到的样式End -->
-
-
  
     <!-- Loding_dialog样式Start -->
     <style name="Dialog_bocop">
