@@ -69,6 +69,7 @@ public class LoadingDialog extends Dialog {
 		View contentView = View.inflate(getContext(), R.layout.activity_custom_loding_dialog_layout, null);
 		setContentView(contentView);
 		
+		
 		contentView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

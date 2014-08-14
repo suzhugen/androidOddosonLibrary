@@ -12,6 +12,10 @@ import android.net.NetworkInfo.State;
  * 
  * 网络帮助类
  * 
+ * <pre>
+ *  1、需要的权限   uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"
+ * </pre>
+ * 
  * @author su
  * 
  */
