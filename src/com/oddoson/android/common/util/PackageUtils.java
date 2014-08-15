@@ -74,13 +74,11 @@ public class PackageUtils {
      */
     public static boolean installNormal(Context context, String filePath) {
     	
-    	Log.v("------>", "安装........"+filePath);
         Intent i = new Intent(Intent.ACTION_VIEW);
         File file = new File(filePath);
         if (file == null || !file.exists() || !file.isFile() || file.length() <= 0) {
             return false;
         }
-        Log.v("------>", "安装yes ........"+filePath);
         i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);

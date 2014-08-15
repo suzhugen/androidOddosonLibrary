@@ -17,16 +17,16 @@ public class AppsUtils {
 	 * 获取当前APP 版本号
 	 * 
 	 * @param context
-	 * @return
+	 * @return 1001
 	 */
 	public static int getVersionCode(Context context) {
-		int verName = 1;
+		int verCode = 1;
 		try {
 			String packgeName = context.getPackageName();
-			verName = context.getPackageManager().getPackageInfo(packgeName, 0).versionCode;
+			verCode = context.getPackageManager().getPackageInfo(packgeName, 0).versionCode;
 		} catch (NameNotFoundException e) {
 		}
-		return verName;
+		return verCode;
 	}
 	
 	/**
