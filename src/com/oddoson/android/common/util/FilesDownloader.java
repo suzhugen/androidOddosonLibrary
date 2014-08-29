@@ -10,8 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.oddoson.android.common.security.MD5;
-
 /**
  * 单个文件下载器，支持断点续传
  * 
@@ -34,7 +32,7 @@ public class FilesDownloader {
 	public FilesDownloader(String fileUrl, String dirPath, String filename,FileDownloadCallbabk callbabk) {
 		this.fileUrl = fileUrl;
 		this.dirPath = dirPath;
-		this.tmpFile = dirPath + MD5.md5(fileUrl) + ".tmp";
+		this.tmpFile = dirPath +filename+ ".tmp";
 		this.localfilePath = dirPath+filename;
 		this.mHandler = new MyHandler();
 		this.callbabk=callbabk;
@@ -74,6 +72,13 @@ public class FilesDownloader {
 	}
 	public Boolean isPause(){
 		return pause;
+	}
+	
+	/**
+	 * 删除临时文件
+	 */
+	public void deleteTmp(){
+	    FileUtils.deleteFile(tmpFile);
 	}
 	
 	public void setCallbabk(FileDownloadCallbabk callbabk){

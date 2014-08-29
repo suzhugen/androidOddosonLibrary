@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 /**
  * String Utils
  * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2011-7-22
  */
 public class StringUtils {
 

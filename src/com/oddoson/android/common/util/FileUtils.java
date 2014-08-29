@@ -15,31 +15,16 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 /**
  * File Utils
- * <ul>
- * Read or write file
- * <li>{@link #readFile(String)} read file</li>
- * <li>{@link #readFileToList(String)} read file to string list</li>
- * <li>{@link #writeFile(String, String, boolean)} write file</li>
- * <li>{@link #writeFile(String, InputStream)} write file</li>
- * </ul>
- * <ul>
- * Operate file
- * <li>{@link #getFileExtension(String)}</li>
- * <li>{@link #getFileName(String)}</li>
- * <li>{@link #getFileNameWithoutExtension(String)}</li>
- * <li>{@link #getFileSize(String)}</li>
- * <li>{@link #deleteFile(String)}</li>
- * <li>{@link #isFileExist(String)}</li>
- * <li>{@link #isFolderExist(String)}</li>
- * <li>{@link #makeFolders(String)}</li>
- * <li>{@link #makeDirs(String)}</li>
- * </ul>
  * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2012-5-12
+ * <pre>
+ * 文件操作需要的权限:
+ *  uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+ *  uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+ * </pre>
+ * 
  */
 public class FileUtils {
 
@@ -113,6 +98,24 @@ public class FileUtils {
                     throw new RuntimeException("IOException occurred. ", e);
                 }
             }
+        }
+    }
+    
+    public static FileOutputStream readFile(String filePath){
+        if (!FileUtils.isFileExist(filePath))
+        {
+            return null;
+        }
+        try
+        {
+            FileOutputStream outputStream=new FileOutputStream(new File(filePath));
+            return outputStream;
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -382,25 +385,7 @@ public class FileUtils {
         return (filePosi >= extenPosi) ? "" : filePath.substring(extenPosi + 1);
     }
 
-    /**
-     * Creates the directory named by the trailing filename of this file, including the complete directory path required
-     * to create this directory. <br/>
-     * <br/>
-     * <ul>
-     * <strong>Attentions:</strong>
-     * <li>makeDirs("C:\\Users\\Trinea") can only create users folder</li>
-     * <li>makeFolder("C:\\Users\\Trinea\\") can create Trinea folder</li>
-     * </ul>
-     * 
-     * @param filePath
-     * @return true if the necessary directories have been created or the target directory already exists, false one of
-     * the directories can not be created.
-     * <ul>
-     * <li>if {@link FileUtils#getFolderName(String)} return null, return false</li>
-     * <li>if target directory already exists, return true</li>
-     * <li>return {@link java.io.File#makeFolder}</li>
-     * </ul>
-     */
+
     public static boolean makeDirs(String filePath) {
         String folderName = getFolderName(filePath);
         if (StringUtils.isEmpty(folderName)) {

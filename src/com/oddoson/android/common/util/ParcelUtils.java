@@ -10,7 +10,6 @@ import android.os.Parcelable;
 /**
  * ParcelUtils
  * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-5-27
  */
 public class ParcelUtils {
 

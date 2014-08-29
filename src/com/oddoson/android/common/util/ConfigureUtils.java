@@ -4,10 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import com.oddoson.android.common.security.Base64;
-
-import android.util.Log;
 import android.util.Xml.Encoding;
+
+import com.oddoson.android.common.security.Base64;
 
 /**
  * 配置保存类

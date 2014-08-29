@@ -10,7 +10,10 @@ public class LogUtil {
 		}
 				
 		public static void e(String msg){
-			e(tag, msg);
+		    if (OddosonConfig.isDebug())
+            {
+		        e(tag, msg);
+            }
 		}
 		
 		public static void e(Exception ex){
@@ -18,14 +21,20 @@ public class LogUtil {
 		}
 		
 		public static void d(String tag,String msg){
-			Log.d(tag, msg);
+		    if (OddosonConfig.isDebug())
+            {
+		        Log.d(tag, msg);
+            }
 		}
 		public static void d(String msg){
 			d(tag, msg);
 		}
 		
 		public static void i(String tag,String msg){
-			Log.i(tag, msg);
+		    if (OddosonConfig.isDebug())
+            {
+		        Log.i(tag, msg);
+            }
 		}
 		public static void i(String msg){
 			i(tag, msg);

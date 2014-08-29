@@ -16,7 +16,6 @@ package com.oddoson.android.common.util;
  * <li>{@link #getNext(long[], long, long, boolean)}</li>
  * </ul>
  * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2011-10-24
  */
 public class ArrayUtils {
 
