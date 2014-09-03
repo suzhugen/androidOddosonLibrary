@@ -19,11 +19,11 @@ public class MD5 {
 	 *            是否小写字母
 	 * @return
 	 */
-	public static String getMD5(String val, Boolean lower) {
+	public static String getMD5(byte[]  val, Boolean lower) {
 		MessageDigest md5;
 		try {
 			md5 = MessageDigest.getInstance("MD5");
-			md5.update(val.getBytes());
+			md5.update(val);
 			byte[] m = md5.digest();// 加密
 			if (lower) {
 				return toHexLowerString(m);
@@ -43,7 +43,7 @@ public class MD5 {
 	 * @return
 	 */
 	public static String md5(String s) {
-		return getMD5(s, true);
+		return getMD5(s.getBytes(), true);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class MD5 {
 	 * @return
 	 */
 	public static String md5_16(String s) {
-		String mi=getMD5(s, true);
+		String mi=getMD5(s.getBytes(), true);
 		if (!TextUtils.isEmpty(mi)) {
 			return mi.substring(8, 24);
 		}
@@ -65,7 +65,7 @@ public class MD5 {
 	 * @return
 	 */
 	public static String md5_16_upper(String s) {
-		String mi=getMD5(s, false);
+		String mi=getMD5(s.getBytes(), false);
 		if (!TextUtils.isEmpty(mi)) {
 			return mi.substring(7, 23);
 		}
@@ -73,7 +73,12 @@ public class MD5 {
 	}
 	
 
-	private static String toHexString(byte[] b) {
+	/**
+	 * 转大写
+	 * @param b
+	 * @return
+	 */
+	public static String toHexString(byte[] b) {
 		// String to byte
 		StringBuilder sb = new StringBuilder(b.length * 2);
 		for (int i = 0; i < b.length; i++) {
@@ -84,7 +89,7 @@ public class MD5 {
 	}
 
 	/**
-	 * 小写md5
+	 * 转小写
 	 * 
 	 * @param b
 	 * @return
