@@ -5,21 +5,80 @@ import java.util.regex.Pattern;
 
 /**
  * 正则表达式
+ * 
  * @author oddoson
- *
+ * 
+ * <pre>
+ * 常用正则
+ * 1。^\d+$　　//匹配非负整数（正整数 + 0） 
+ * 2。^[0-9]*[1-9][0-9]*$　　//匹配正整数 
+ * 3。^((-\d+) ?(0+))$　　//匹配非正整数（负整数 + 0） 
+ * 4。^-[0-9]*[1-9][0-9]*$　　//匹配负整数 
+ * 5。^-?\d+$　　　　//匹配整数 
+ * 6。^\d+(\.\d+)?$　　//匹配非负浮点数（正浮点数 + 0） 
+ * 7。^(([0-9]+\.[0-9]*[1-9][0-9]*) ?([0-9]*[1-9][0-9]*\.[0-9]+) ?([0-9]*[1-9][0-9]*))$　　//匹配正浮点数 
+ * 8。^((-\d+(\.\d+)?) ?(0+(\.0+)?))$　　//匹配非正浮点数（负浮点数 + 0） 
+ * 9。^(-(([0-9]+\.[0-9]*[1-9][0-9]*) ?([0-9]*[1-9][0-9]*\.[0-9]+) ?([0-9]*[1-9][0-9]*)))$　　//匹配负浮点数 
+ * 10。^(-?\d+)(\.\d+)?$　　//匹配浮点数 
+ * 11。^[A-Za-z]+$　　//匹配由26个英文字母组成的字符串 
+ * 12。^[A-Z]+$　　//匹配由26个英文字母的大写组成的字符串 
+ * 13。^[a-z]+$　　//匹配由26个英文字母的小写组成的字符串 
+ * 14。^[A-Za-z0-9]+$　　//匹配由数字和26个英文字母组成的字符串 
+ * 15。^\w+$　　//匹配由数字、26个英文字母或者下划线组成的字符串 
+ * 16。^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$　　　　//匹配email地址 
+ * 17。^[a-zA-z]+://匹配(\w+(-\w+)*)(\.(\w+(-\w+)*))*(\?\S*)?$　　//匹配url 
+ * 18。匹配中文字符的正则表达式： [\u4e00-\u9fa5] 
+ * 19。匹配双字节字符(包括汉字在内)：[^\x00-\xff] 
+ * 20。应用：计算字符串的长度（一个双字节字符长度计2，ASCII字符计1） 
+ * String.prototype.len=function(){return this.replace([^\x00-\xff]/g,"aa").length;} 
+ * 21。匹配空行的正则表达式：\n[\s ? ]*\r 
+ * 22。匹配HTML标记的正则表达式：/ <(.*)>.* <\/\1> ? <(.*) \/>/ 
+ * 23。匹配首尾空格的正则表达式：(^\s*) ?(\s*$)
+ * 正则表达式用例 
+ * 1、^\S+[a-z A-Z]$ 不能为空 不能有空格 只能是英文字母 
+ * 2、\S{6,}        不能为空 六位以上 
+ * 3、^\d+$          不能有空格 不能非数字 
+ * 4、(.*)(\.jpg ?\.bmp)$ 只能是jpg和bmp格式 
+ * 5、^\d{4}\-\d{1,2}-\d{1,2}$ 只能是2004-10-22格式 
+ * 6、^0$            至少选一项 
+ * 7、^0{2,}$        至少选两项 
+ * 8、^[\s ?\S]{20,}$ 不能为空 二十字以上 
+ * 9、^\+?[a-z0-9](([-+.] ?[_]+)?[a-z0-9]+)*@([a-z0-9]+(\. ?\-))+[a-z]{2,6}$邮件 
+ * 10、\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,;]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)* 输入多个地址用逗号或空格分隔邮件 
+ * 11、^(\([0-9]+\))?[0-9]{7,8}$电话号码7位或8位或前面有区号例如（022）87341628 
+ * 12、^[a-z A-Z 0-9 _]+@[a-z A-Z 0-9 _]+(\.[a-z A-Z 0-9 _]+)+(\,[a-z A-Z 0-9 _]+@[a-z A-Z 0-9 _]+(\.[a-z A-Z 0-9 _]+)+)*$ 
+ *    只能是字母、数字、下划线；必须有@和.同时格式要规范 邮件 
+ * 13、 ^\w+@\w+(\.\w+)+(\,\w+@\w+(\.\w+)+)*$上面表达式也可以写成这样子，更精练。 
+ * 14、 ^\w+((-\w+) ?(\.\w+))*\@\w+((\. &brvbar-)\w+)*\.\w+$
+ * 15、匹配中文字符的正则表达式： [\u4e00-\u9fa5]
+ * 16、匹配网址URL的正则表达式：[a-zA-z]+://[^\s]* 
+ * 17、匹配Email地址的正则表达式：\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)* 
+ * 18、匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$ 
+ * 19、匹配国内电话号码：\d{3}-\d{8} ?\d{4}-\d{7} 评注：匹配形式如 0511-4405222 或 021-87888822 
+ * 20、匹配腾讯QQ号：[1-9][0-9]{4,} 评注：腾讯QQ号从10000开始 
+ * 21、匹配中国邮政编码：[1-9]\d{5}(?!\d) 评注：中国邮政编码为6位数字 
+ * 22、匹配身份证：\d{15} ?\d{18} 评注：中国的身份证为15位或18位 
+ * 23、匹配ip地址：\d+\.\d+\.\d+\.\d+ 评注：提取ip地址时有用
+ * 24、手机号码：^((\(\d{2,3}\))|(\d{3}\-))?13\d{9}$
+ * 25、提取信息中的图片链接：(s|S)(r|R)(c|C) *= *('|")?(\w|\\|\/|\.)+('|"| *|>)?
+ * </pre>
  */
 public class Regular
 {
     
-    
     /**
      * 替换字符
-     * @param src  源字符串
-     * @param replace  替换的字符
-     * @param pattern  要匹配的字符串
+     * 
+     * @param src
+     *            源字符串
+     * @param replace
+     *            替换的字符
+     * @param pattern
+     *            要匹配的字符串
      * @return
      */
-    public  static String matcher(String src,String replace,String pattern){
+    public static String matcher(String src, String replace, String pattern)
+    {
         Pattern p = Pattern.compile(pattern);
         Matcher matcher = p.matcher(src);
         return matcher.replaceAll(replace);
@@ -27,38 +86,44 @@ public class Regular
     
     /**
      * 是否有匹配
+     * 
      * @param src
-     * @param replace
+     *            待匹配的字符串
      * @param pattern
+     *            匹配的词
      * @return
      */
-    public  static Boolean isFind(String src,String replace,String pattern){
+    public static Boolean isFind(String src, String pattern)
+    {
         Pattern p = Pattern.compile(pattern);
         Matcher matcher = p.matcher(src);
         return matcher.find();
     }
     
     /**
-     * 去除中文字符,
-     * @param src 要过滤的字符
-     * @param replace 替换字符
+     * 替换中文字符
+     * 
+     * @param src
+     *            要过滤的字符
+     * @param replace
+     *            替换字符
      * @return 过滤后的字符
      */
-    public  static String filterChinese(String src,String replace){
+    public static String filterChinese(String src, String replace)
+    {
         String reg = "[\u4e00-\u9fa5]";
-        return matcher(src,replace,reg);
+        return matcher(src, replace, reg);
     }
     
     /**
      * 去除中文字符
+     * 
      * @param src
      * @return
      */
-    public  static String filterChinese(String src){
+    public static String filterChinese(String src)
+    {
         return filterChinese(src, "");
     }
-    
-  
-    
     
 }

@@ -13,8 +13,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 
 /**
  * File Utils
@@ -532,4 +538,36 @@ public class FileUtils {
         File file = new File(path);
         return (file.exists() && file.isFile() ? file.length() : -1);
     }
+    
+    /**
+     * 根据Uri获取文件路径，兼容4.4系统，需特殊处理
+     * @param uri
+     * @return
+     */
+    @SuppressLint("NewApi")
+    public static String getUriPath(Context context, Uri uri) {
+        String filePath = null;
+        boolean isKitKat = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);//>=4.4系统  
+        if (isKitKat&&DocumentsContract.isDocumentUri(context, uri)) {
+            String wholeID = DocumentsContract.getDocumentId(uri);
+            String id = wholeID.split(":")[1];
+            String[] column = { MediaStore.Images.Media.DATA };
+            String sel = MediaStore.Images.Media._ID + "=?";
+            Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, sel, new String[] { id }, null);
+            int columnIndex = cursor.getColumnIndex(column[0]);
+            if (cursor.moveToFirst()) {
+                filePath = cursor.getString(columnIndex);
+            }
+            cursor.close();
+        } else {
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            filePath = cursor.getString(column_index);
+            cursor.close();
+        }
+        return filePath;
+    }
+    
 }

@@ -236,7 +236,12 @@ public class AppsUtils
      * @return  MD5值
      */
     public static String getApkSign_Md5(Context context, String packageName){
-        return MD5.getMD5(AppsUtils.getApkSign(context, packageName),false);
+        byte[] arrayOfByte=AppsUtils.getApkSign(context, packageName);
+        if (arrayOfByte==null)
+        {
+            return null;
+        }
+        return MD5.getMD5(arrayOfByte,false);
     }
     
     

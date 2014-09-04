@@ -1,6 +1,7 @@
 package com.oddoson.android.common.view.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
@@ -25,6 +26,7 @@ public class LoadingDialog extends Dialog {
 	private static final int MAX_SUFFIX_NUMBER = 3;
 	private static final char SUFFIX = '.';
 	
+	private Context mContext;
 	private ImageView iv_route;
 	private TextView tv;
 	private TextView tv_point;
@@ -56,10 +58,12 @@ public class LoadingDialog extends Dialog {
 
 	public LoadingDialog(Context context) {
 		super(context, com.oddoson.android.common.R.style.Dialog_bocop);
+		mContext=context;
 		init();
 	}
 	public LoadingDialog(Context context,String title) {
 		super(context, com.oddoson.android.common.R.style.Dialog_bocop);
+		mContext=context;
 		init();
 		setTitle(title);
 	}
@@ -95,6 +99,10 @@ public class LoadingDialog extends Dialog {
 
 	@Override
 	public void show() {
+	    if (((Activity)mContext).isFinishing())
+        {
+            return;
+        }
 		iv_route.startAnimation(mAnim);
 		handler.sendEmptyMessage(CHANGE_TITLE_WHAT);
 		super.show();
@@ -103,6 +111,10 @@ public class LoadingDialog extends Dialog {
 	@SuppressLint("NewApi")
     @Override
 	public void dismiss() {
+	    if (((Activity)mContext).isFinishing())
+        {
+            return;
+        }
 	    if (SystemInfoUtils.getAndroidSDKVersion()>7)
         {
 	        mAnim.cancel();
