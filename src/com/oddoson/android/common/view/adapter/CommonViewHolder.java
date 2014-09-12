@@ -96,10 +96,10 @@ public class CommonViewHolder
     /**
      * 查找 任意类型控件
      * 
-     * @param imageViewId
+     * @param ViewId
      * @return
      */
-    public <T extends View> T getTextView(int textViewId)
+    public <T extends View> T getView(int textViewId)
     {
         return findViewById(textViewId);
     }

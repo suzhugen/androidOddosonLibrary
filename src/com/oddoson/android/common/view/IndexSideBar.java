@@ -2,37 +2,141 @@ package com.oddoson.android.common.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.oddoson.android.common.R;
+import com.oddoson.android.common.interfaces.IndexSideCallback;
 import com.oddoson.android.common.util.DensityUtil;
-import com.oddoson.android.common.util.LogUtil;
 
 /**
  * 字母排序 导航，通讯录导航
- * @author Administrator
+ * @author oddoson
+ * <pre>
+    ArrayList<IndexSideEntity<String>> datas=new ArrayList<IndexSideEntity<String>>();
+    ListView mListView2;
+    void initview()
+    {
+        mListView2 = (ListView) findViewById(R.id.listView1);
+        IndexSideBar mBar = (IndexSideBar) findViewById(R.id.indexSideBar1);
+        
+        char lastchar=' ';
+        for (int i = 0; i < s.length; i++)
+        {
+            IndexSideEntity<String> item=new IndexSideEntity<String>();
+            item.setFirstChar(PinYinUtil.getFirstCharPinYin(s[i]));
+            if ((item.getFirstChar()>='a'&&item.getFirstChar()<='z')||(item.getFirstChar()>='A'&&item.getFirstChar()<='Z'))
+            {
+                
+            }else {
+                item.setFirstChar('#');
+            }
+            item.setData(s[i]);
+            datas.add(item);
+        }
+        Collections.sort(datas,new Mycompare());//排序
+        for (int i = 0; i < datas.size(); i++)
+        {
+            IndexSideEntity<String> item=datas.get(i);
+            if (lastchar!=item.getFirstChar())
+            {
+                item.setIsFirst(true);
+                lastchar=item.getFirstChar();
+            }else {
+                item.setIsFirst(false);
+            }
+        }
+        mListView2.setAdapter(new CommonAdapter<IndexSideEntity<String>>(this, R.layout.item,
+                datas)
+        {
+            @Override
+            protected void fillItemData(CommonViewHolder viewHolder,
+                    IndexSideEntity<String> itemData, int position)
+            {
+                TextView tView = viewHolder.getView(R.id.first_char);
+                if (itemData.getIsFirst())
+                {
+                    tView.setText(itemData.getFirstChar()+"");
+                    tView.setVisibility(View.VISIBLE);
+                }else
+                {
+                    tView.setVisibility(View.GONE);
+                }
+                viewHolder.setTextForTextView(R.id.textView1, itemData.getData());
+            }
+        });
+        
+        mBar.setCallback(new IndexSideCallback()
+        {
+            @Override
+            public void setSelection(int position)
+            {
+                mListView2.setSelection(position);
+            }
+            
+            @Override
+            public int getPositionForSection(char sectionChar, int position)
+            {
+                int count = mListView2.getCount();
+                for (int i = 0; i < count; i++)
+                {
+                    IndexSideEntity<String> item=(IndexSideEntity<String>) mListView2.getAdapter().getItem(i);
+                    if (sectionChar==item.getFirstChar())
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+        });       
+    }
+    String s[] =
+    { "t","我", "你", "好", "什么", "不好", "不不不","边框", "aa", "好可怕", "噢好玩", "额", "不不不", "一点都 不好玩",
+            "他", "吗", "正在", "出错", "三", "啊啊", "搜索", "得到", "方法", "嘎嘎嘎", "哈哈哈",
+            "吉家家", "卡卡卡", "啦啦啦", "请求", "五万五", "呃呃呃", "日日日", "他他他", "已拥有", "uu",
+            "iii", "oo6", "哦哦", "潘潘潘", "23", "方法", "很多个", "个梵蒂冈", "发个", "hhh", "金骏眉",
+            "453", "发个顺丰的", "法规的法规", "分W公司的", "发个都是", };
+    
+    class Mycompare implements Comparator<IndexSideEntity<String>>{
+
+        @Override
+        public int compare(IndexSideEntity<String> lhs,
+                IndexSideEntity<String> rhs)
+        {
+            if (lhs.getFirstChar()>rhs.getFirstChar())
+            {
+                return 1;
+            }else if (lhs.getFirstChar()<rhs.getFirstChar()){
+                return -1;
+            }
+            return 0;
+        }
+    }
+ * </pre>
  *
  */
 public class IndexSideBar extends View
 {
     public static final char[] chars = new char[]
     { '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };;
-    private SectionIndexer sectionIndexter = null;
-    private ListView list;
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
     private TextView mDialogText;
     private int m_ItemHeight;
     private WindowManager mWindowManager;
+    private IndexSideCallback callback;
+    private Paint paint = new Paint();
+    private RectF roundRectF;//背景矩形
+    
+    private Boolean isPress=false;
+    private int touchIndex=-1;
     
     public IndexSideBar(Context context)
     {
@@ -66,90 +170,116 @@ public class IndexSideBar extends View
                         | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         mWindowManager.addView(mDialogText, lp);
+        
+        paint.setColor(0xff888888);
+        paint.setTextSize(DensityUtil.spToPx(context, 16));
+        paint.setAntiAlias(true);
+        paint.setStyle(Style.FILL_AND_STROKE);
+        paint.setTextAlign(Paint.Align.CENTER);
     }
     
-    public void setListView(ListView _list)
+    public void setCallback(IndexSideCallback callback)
     {
-        list = _list;
-        sectionIndexter = (SectionIndexer) list.getAdapter();
+        this.callback=callback;
     }
     
     public boolean onTouchEvent(MotionEvent event)
     {
         super.onTouchEvent(event);
+        switch (event.getAction())
+        {
+        case MotionEvent.ACTION_DOWN:
+            isPress=true;
+            break;
+        case MotionEvent.ACTION_MOVE:
+            break;
+        case MotionEvent.ACTION_UP:
+            isPress=false;
+            break;
+        default:
+            break;
+        }
+        touch(event);
+        invalidate();
+        return true;
+    }
+    
+    void touch(MotionEvent event){
         int i = (int) event.getY();
-        int idx = i / m_ItemHeight;
-        if (idx >= chars.length)
+        touchIndex = i / m_ItemHeight;
+        if (touchIndex >= chars.length)
         {
-            idx = chars.length - 1;
+            touchIndex = chars.length - 1;
         }
-        else if (idx < 0)
+        else if (touchIndex < 0)
         {
-            idx = 0;
+            touchIndex = 0;
         }
-        if (list == null)
+        if (callback == null)
         {
-            return true;
+            return ;
         }
         if (event.getAction() == MotionEvent.ACTION_DOWN
                 || event.getAction() == MotionEvent.ACTION_MOVE)
         {
             mDialogText.setVisibility(View.VISIBLE);
-            mDialogText.setText("" + chars[idx]);
-            if (sectionIndexter == null)
-            {
-                sectionIndexter = (SectionIndexer) list.getAdapter();
-            }
-           // int position = sectionIndexter.getPositionForSection(idx);
-            LogUtil.e("idx="+chars[idx]);
-            int position=getPosition(idx);
-            LogUtil.e("position="+position);
+            mDialogText.setText(String.valueOf(chars[touchIndex]));
+            int position = callback.getPositionForSection(chars[touchIndex],touchIndex);
             if (position == -1)
             {
-                return true;
+                return ;
             }
-            list.setSelection(position);
+            callback.setSelection(position);
         }
         else
         {
             mDialogText.setVisibility(View.INVISIBLE);
         }
-        return true;
     }
     
-    private int  getPosition(int idx){
-        int count=list.getCount();
-        for (int i = 0; i < count; i++)
-        {
-            if (list.getAdapter().getItem(i).equals(chars[idx]+""))
-            {
-                return i;
-            }
-        }
-        return 30;
-    }
     
     protected void onDraw(Canvas canvas)
     {
-        canvas.drawColor(getResources().getColor(R.color.bocop_dialog_bg));
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(20);
-        paint.setTextAlign(Paint.Align.CENTER);
+        if (isPress)
+        {
+            //画背景
+            if (roundRectF==null)
+            {
+                roundRectF=new RectF(0, 0, getWidth(), getHeight());
+            }
+            paint.setColor(0x44000000);
+            canvas.drawRoundRect(roundRectF,10, 10, paint);
+        }else
+        {
+            paint.setColor(0xff888888);
+        }
         
-        m_ItemHeight = getMeasuredHeight() / 26;
+        m_ItemHeight = getMeasuredHeight() /chars.length;
         float widthCenter = getMeasuredWidth() / 2;
         for (int i = 0; i < chars.length; i++)
         {
+            if (i==touchIndex&&isPress)
+            {
+                paint.setColor(0xff02AEEE);
+            }else if(isPress){
+                paint.setColor(0xffffffff);
+            }
             canvas.drawText(String.valueOf(chars[i]), widthCenter, m_ItemHeight
                     + (i * m_ItemHeight), paint);
         }
         super.onDraw(canvas);
     }
     
-    public void onDestroy()
+    
+    @Override
+    protected void onDetachedFromWindow()
     {
-        mWindowManager.removeView(mDialogText);
+        if (mWindowManager!=null)
+        {
+            mWindowManager.removeViewImmediate(mDialogText);//立即移除 ,防止内容泄露
+            mWindowManager=null;
+        }
+        super.onDetachedFromWindow();
     }
     
 }
