@@ -1,24 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical"
-    tools:context=".IndexSideBarActivity" >
+    android:background="#fff" >
+
+    <com.oddoson.android.common.view.ClearEditText
+        android:id="@+id/clearEditText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/search_bar_edit_selector"
+        android:drawableLeft="@drawable/sorlistview_search_bar_icon_normal"
+        android:ems="10"
+        android:hint="请输入关键字"
+        android:singleLine="true"
+        android:textSize="15.0dip" >
+
+    </com.oddoson.android.common.view.ClearEditText>
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true" >
-
+        android:layout_alignParentLeft="true"
+        android:divider="@null" 
+        android:layout_below="@+id/clearEditText1" >
     </ListView>
 
     <com.oddoson.android.common.view.IndexSideBar
         android:id="@+id/indexSideBar1"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/clearEditText1" />
 
 </RelativeLayout>

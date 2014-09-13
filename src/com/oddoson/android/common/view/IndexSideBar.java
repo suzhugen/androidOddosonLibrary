@@ -19,109 +19,10 @@ import com.oddoson.android.common.util.DensityUtil;
 
 /**
  * 字母排序 导航，通讯录导航
+ * 
  * @author oddoson
- * <pre>
-    ArrayList<IndexSideEntity<String>> datas=new ArrayList<IndexSideEntity<String>>();
-    ListView mListView2;
-    void initview()
-    {
-        mListView2 = (ListView) findViewById(R.id.listView1);
-        IndexSideBar mBar = (IndexSideBar) findViewById(R.id.indexSideBar1);
-        
-        char lastchar=' ';
-        for (int i = 0; i < s.length; i++)
-        {
-            IndexSideEntity<String> item=new IndexSideEntity<String>();
-            item.setFirstChar(PinYinUtil.getFirstCharPinYin(s[i]));
-            if ((item.getFirstChar()>='a'&&item.getFirstChar()<='z')||(item.getFirstChar()>='A'&&item.getFirstChar()<='Z'))
-            {
-                
-            }else {
-                item.setFirstChar('#');
-            }
-            item.setData(s[i]);
-            datas.add(item);
-        }
-        Collections.sort(datas,new Mycompare());//排序
-        for (int i = 0; i < datas.size(); i++)
-        {
-            IndexSideEntity<String> item=datas.get(i);
-            if (lastchar!=item.getFirstChar())
-            {
-                item.setIsFirst(true);
-                lastchar=item.getFirstChar();
-            }else {
-                item.setIsFirst(false);
-            }
-        }
-        mListView2.setAdapter(new CommonAdapter<IndexSideEntity<String>>(this, R.layout.item,
-                datas)
-        {
-            @Override
-            protected void fillItemData(CommonViewHolder viewHolder,
-                    IndexSideEntity<String> itemData, int position)
-            {
-                TextView tView = viewHolder.getView(R.id.first_char);
-                if (itemData.getIsFirst())
-                {
-                    tView.setText(itemData.getFirstChar()+"");
-                    tView.setVisibility(View.VISIBLE);
-                }else
-                {
-                    tView.setVisibility(View.GONE);
-                }
-                viewHolder.setTextForTextView(R.id.textView1, itemData.getData());
-            }
-        });
-        
-        mBar.setCallback(new IndexSideCallback()
-        {
-            @Override
-            public void setSelection(int position)
-            {
-                mListView2.setSelection(position);
-            }
-            
-            @Override
-            public int getPositionForSection(char sectionChar, int position)
-            {
-                int count = mListView2.getCount();
-                for (int i = 0; i < count; i++)
-                {
-                    IndexSideEntity<String> item=(IndexSideEntity<String>) mListView2.getAdapter().getItem(i);
-                    if (sectionChar==item.getFirstChar())
-                    {
-                        return i;
-                    }
-                }
-                return -1;
-            }
-        });       
-    }
-    String s[] =
-    { "t","我", "你", "好", "什么", "不好", "不不不","边框", "aa", "好可怕", "噢好玩", "额", "不不不", "一点都 不好玩",
-            "他", "吗", "正在", "出错", "三", "啊啊", "搜索", "得到", "方法", "嘎嘎嘎", "哈哈哈",
-            "吉家家", "卡卡卡", "啦啦啦", "请求", "五万五", "呃呃呃", "日日日", "他他他", "已拥有", "uu",
-            "iii", "oo6", "哦哦", "潘潘潘", "23", "方法", "很多个", "个梵蒂冈", "发个", "hhh", "金骏眉",
-            "453", "发个顺丰的", "法规的法规", "分W公司的", "发个都是", };
-    
-    class Mycompare implements Comparator<IndexSideEntity<String>>{
-
-        @Override
-        public int compare(IndexSideEntity<String> lhs,
-                IndexSideEntity<String> rhs)
-        {
-            if (lhs.getFirstChar()>rhs.getFirstChar())
-            {
-                return 1;
-            }else if (lhs.getFirstChar()<rhs.getFirstChar()){
-                return -1;
-            }
-            return 0;
-        }
-    }
- * </pre>
- *
+ * @see 参考demo-IndexSideBarActivity.java
+ * 
  */
 public class IndexSideBar extends View
 {
@@ -133,10 +34,10 @@ public class IndexSideBar extends View
     private WindowManager mWindowManager;
     private IndexSideCallback callback;
     private Paint paint = new Paint();
-    private RectF roundRectF;//背景矩形
+    private RectF roundRectF;// 背景矩形
     
-    private Boolean isPress=false;
-    private int touchIndex=-1;
+    private Boolean isPress = false;
+    private int touchIndex = -1;
     
     public IndexSideBar(Context context)
     {
@@ -180,7 +81,7 @@ public class IndexSideBar extends View
     
     public void setCallback(IndexSideCallback callback)
     {
-        this.callback=callback;
+        this.callback = callback;
     }
     
     public boolean onTouchEvent(MotionEvent event)
@@ -189,12 +90,12 @@ public class IndexSideBar extends View
         switch (event.getAction())
         {
         case MotionEvent.ACTION_DOWN:
-            isPress=true;
+            isPress = true;
             break;
         case MotionEvent.ACTION_MOVE:
             break;
         case MotionEvent.ACTION_UP:
-            isPress=false;
+            isPress = false;
             break;
         default:
             break;
@@ -204,7 +105,8 @@ public class IndexSideBar extends View
         return true;
     }
     
-    void touch(MotionEvent event){
+    void touch(MotionEvent event)
+    {
         int i = (int) event.getY();
         touchIndex = i / m_ItemHeight;
         if (touchIndex >= chars.length)
@@ -217,17 +119,18 @@ public class IndexSideBar extends View
         }
         if (callback == null)
         {
-            return ;
+            return;
         }
         if (event.getAction() == MotionEvent.ACTION_DOWN
                 || event.getAction() == MotionEvent.ACTION_MOVE)
         {
             mDialogText.setVisibility(View.VISIBLE);
             mDialogText.setText(String.valueOf(chars[touchIndex]));
-            int position = callback.getPositionForSection(chars[touchIndex],touchIndex);
+            int position = callback.getPositionForSection(chars[touchIndex],
+                    touchIndex);
             if (position == -1)
             {
-                return ;
+                return;
             }
             callback.setSelection(position);
         }
@@ -237,31 +140,29 @@ public class IndexSideBar extends View
         }
     }
     
-    
     protected void onDraw(Canvas canvas)
     {
         if (isPress)
         {
-            //画背景
-            if (roundRectF==null)
-            {
-                roundRectF=new RectF(0, 0, getWidth(), getHeight());
-            }
+            // 画背景
+            roundRectF = new RectF(0, 0, getWidth(), getHeight());
             paint.setColor(0x44000000);
-            canvas.drawRoundRect(roundRectF,10, 10, paint);
-        }else
+            canvas.drawRoundRect(roundRectF, 10, 10, paint);
+        }
+        else
         {
             paint.setColor(0xff888888);
         }
-        
-        m_ItemHeight = getMeasuredHeight() /chars.length;
+        m_ItemHeight = getMeasuredHeight() / chars.length;
         float widthCenter = getMeasuredWidth() / 2;
         for (int i = 0; i < chars.length; i++)
         {
-            if (i==touchIndex&&isPress)
+            if (i == touchIndex && isPress)
             {
                 paint.setColor(0xff02AEEE);
-            }else if(isPress){
+            }
+            else if (isPress)
+            {
                 paint.setColor(0xffffffff);
             }
             canvas.drawText(String.valueOf(chars[i]), widthCenter, m_ItemHeight
@@ -270,14 +171,13 @@ public class IndexSideBar extends View
         super.onDraw(canvas);
     }
     
-    
     @Override
     protected void onDetachedFromWindow()
     {
-        if (mWindowManager!=null)
+        if (mWindowManager != null)
         {
-            mWindowManager.removeViewImmediate(mDialogText);//立即移除 ,防止内容泄露
-            mWindowManager=null;
+            mWindowManager.removeViewImmediate(mDialogText);// 立即移除 ,防止内容泄露
+            mWindowManager = null;
         }
         super.onDetachedFromWindow();
     }
