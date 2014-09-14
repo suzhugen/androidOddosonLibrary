@@ -59,7 +59,6 @@ public class MyViewGroup extends ViewGroup
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        
         totalHeight = 0;
         int count = getChildCount();
         if (count < 1)
@@ -160,8 +159,11 @@ public class MyViewGroup extends ViewGroup
             }
             int x = (int) event.getX();
             int y = (int) event.getY();
-            checkMove(x, y);
+            checkMove(x, y);        
+            scrollBy(0, dy);// 上下滚动
             
+            lastX = x;
+            lastY = y;
             break;
         case MotionEvent.ACTION_UP:
             moveUp();

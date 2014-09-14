@@ -2,7 +2,6 @@ package com.oddoson.android.common.view.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
@@ -20,7 +19,7 @@ import com.oddoson.android.common.util.SystemInfoUtils;
  * @author oddoson
  *
  */
-public class LoadingDialog extends Dialog {
+public class LoadingDialog extends BaseDialog {
 	private static final int CHANGE_TITLE_WHAT = 1;
 	private static final int CHNAGE_TITLE_DELAYMILLIS = 300;
 	private static final int MAX_SUFFIX_NUMBER = 3;
@@ -111,10 +110,6 @@ public class LoadingDialog extends Dialog {
 	@SuppressLint("NewApi")
     @Override
 	public void dismiss() {
-	    if (((Activity)mContext).isFinishing())
-        {
-            return;
-        }
 	    if (SystemInfoUtils.getAndroidSDKVersion()>7)
         {
 	        mAnim.cancel();

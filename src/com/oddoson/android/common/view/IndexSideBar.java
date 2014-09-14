@@ -1,5 +1,7 @@
 package com.oddoson.android.common.view;
 
+import java.util.Comparator;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.oddoson.android.common.R;
+import com.oddoson.android.common.entity.IndexSideEntity;
 import com.oddoson.android.common.interfaces.IndexSideCallback;
 import com.oddoson.android.common.util.DensityUtil;
 
@@ -180,6 +183,28 @@ public class IndexSideBar extends View
             mWindowManager = null;
         }
         super.onDetachedFromWindow();
+    }
+    
+    /**
+     * 按拼音排序器
+     */
+    public static class PinyinComparetor implements Comparator<IndexSideEntity<String>>
+    {
+        
+        @Override
+        public int compare(IndexSideEntity<String> lhs,
+                IndexSideEntity<String> rhs)
+        {
+            if (lhs.getFirstChar() > rhs.getFirstChar())
+            {
+                return 1;
+            }
+            else if (lhs.getFirstChar() < rhs.getFirstChar())
+            {
+                return -1;
+            }
+            return 0;
+        }
     }
     
 }
