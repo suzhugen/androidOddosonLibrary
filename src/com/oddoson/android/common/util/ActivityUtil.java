@@ -3,6 +3,7 @@ package com.oddoson.android.common.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.WindowManager;
 
 public class ActivityUtil
@@ -38,9 +39,12 @@ public class ActivityUtil
      * @param className com.example.demo.MainActivity 完整的类名
      * @return
      */
-    public static Boolean startActivityByClass(Context context,String packName,String className){
+    public static Boolean startActivityByClass(Context context,String packName,String className,Bundle bundle){
         Intent mIntent = new Intent();
         mIntent.setClassName(packName, className);
+        if (bundle!=null) {
+			mIntent.putExtras(bundle);
+		}
         try
         {
             context.startActivity(mIntent);
@@ -59,7 +63,7 @@ public class ActivityUtil
      * @return
      */
     public static Boolean startActivityByClass(Context context,String className){
-        return startActivityByClass(context, context.getPackageName(), className);
-    }
+        return startActivityByClass(context, context.getPackageName(), className,null);
+    }   
     
 }
