@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SectionIndexer;
 
 /**
  * 公共适配器,减少重复代码。
@@ -18,7 +17,6 @@ import android.widget.SectionIndexer;
        {
          return super.getCount();
        }
-            
   ---------------------------------------------
      final List<String> datas = new ArrayList<String>();
         datas.add("aaaaaa");
@@ -42,11 +40,11 @@ public abstract class CommonAdapter<T> extends BaseAdapter
     /** 
      * Context 
      */  
-    Context mContext;  
+    private Context mContext;  
     /** 
      * 要展示的数据列表 
      */  
-    List<T> mData;  
+    private List<T> mData;  
     /** 
      * 每一项的布局id,例如R.layout.my_listview_item. 
      */  
@@ -55,8 +53,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter
     /** 
      * @param context Context 
      * @param itemLayoutResId 
-     *            每一项(适用于listview、gridview等AbsListView子类)的布局资源id,例如R.layout. 
-     *            my_listview_item. 
+     *            item的布局资源id (适用于listview、gridview等AbsListView子类)
      * @param dataSource 数据源 
      */  
     public CommonAdapter(Context context, int itemLayoutResId, List<T> dataSource) {  
@@ -80,7 +77,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter
         }  
     }  
     /**
-     * 重置数据
+     * 重置数据,自动更新view
      * @param dataSource
      */
     public void setDatas(List<T> dataSource){
@@ -125,11 +122,12 @@ public abstract class CommonAdapter<T> extends BaseAdapter
     }  
   
     /** 
-     * 用户必须覆写该方法来讲数据填充到视图中 
+     * 将数据填充到视图中 
      *  
      * @param viewHolder 通用的ViewHolder, 里面会装载listview, 
-     *            gridview等组件的每一项的视图，并且缓存其子view 
+     *            gridview等组件的每一项的视图
      * @param item 数据源的第position项数据 
      */  
-    protected abstract void fillItemData(CommonViewHolder viewHolder, T itemData ,int position);  
+    protected abstract void fillItemData(CommonViewHolder viewHolder, T itemData ,int position);
+    
 }

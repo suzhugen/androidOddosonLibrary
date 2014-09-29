@@ -2,6 +2,7 @@ package com.oddoson.android.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,6 +47,16 @@ import java.util.Locale;
  */
 public class DateUtils
 {
+    /**
+     * 中文月份数组
+     */
+    public static final String[] monthsZh = { "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月" };
+    /**
+     * 英文月份数组
+     */
+    public static final String[] monthsEn = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+    public static final String[] weeks={"一","二","三","四","五","六","日"};
     
     /**
      * 格式化日期
@@ -123,14 +134,125 @@ public class DateUtils
         return toGMTString(date, Locale.CHINA);
     }
     
-    /**
-     * 获取星期几
-     * 
+     /**
+     * 增加日期
+     * @author oddoson
+     * @param addDay 要增加的天数
      * @return
      */
-    public static String getWeek(Date date)
+    public static Date add(Date source,int addDay){
+        Date descDate = new Date(source.getTime() + 1000 * 60 * 60 * 24 * addDay);
+        return descDate;
+    }
+    /**
+     * 星期几, 星期天=7 ，星期一=1, ....，星期六=6
+     * @author oddoson
+     * @return int
+     */
+    public static int getWeek(Date date)
     {
-        return getDateString(date, "EEEE");
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(date);  
+        return getWeek(cal);
+    }
+    /**
+     * 星期几, 星期天=7 ，星期一=1, ....，星期六=6
+     * @author oddoson
+     * @return int
+     */
+    public static int getWeek(Calendar cal)
+    {
+        int week=cal.get(Calendar.DAY_OF_WEEK)-1;
+        if (week==0)
+        {
+            week=7;
+        }
+        return week;
+    }
+    /**
+     * 获取星期几
+     * @author oddoson
+     * @param Date  
+     * @param prdfix  前缀(星期 或者 周)
+     * @return
+     */
+    public static String getWeekString(Date date,String prdfix){
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(date);  
+        return getWeekString(cal, prdfix);
+    }
+    /**
+     * 获取星期几
+     * @author oddoson
+     * @param Calendar  
+     * @param prdfix  前缀(星期 或者 周)
+     * @return
+     */
+    public static String getWeekString(Calendar calendar,String prdfix)
+    {
+        int week=calendar.get(Calendar.DAY_OF_WEEK);
+        String w=prdfix+weeks[week];
+        return w;
+    }
+    /**
+     * 获取 这个星期的周一日期
+     * @author oddoson
+     * @param calendar
+     * @return
+     */
+    public static Calendar getMondayOfDate(Calendar calendar){
+        int cur_week=getWeek(calendar);
+        calendar.add(Calendar.DAY_OF_MONTH, -(cur_week-1));
+        return calendar;
+    }
+    /**
+     * 获取 这个星期的周天日期
+     * @author oddoson
+     * @param calendar
+     * @return
+     */
+    public static Calendar getSundayOfDate(Calendar calendar){
+        int cur_week=getWeek(calendar);
+        calendar.add(Calendar.DAY_OF_MONTH, 7-cur_week);
+        return calendar;
+    }
+    /**
+     * 获取 这个星期的周一日期
+     * @author oddoson
+     * @param calendar
+     * @return
+     */
+    public static Date getMondayOfDate(Date date){
+        return calendarToDate(getMondayOfDate(dateToCalendar(date)));
+    }
+    /**
+     * 获取 这个星期的周天日期
+     * @author oddoson
+     * @param calendar
+     * @return
+     */
+    public static Date getSundayOfDate(Date date){
+        return calendarToDate(getSundayOfDate(dateToCalendar(date)));
+    }
+    /**
+     * date 转 calendar
+     * @author oddoson
+     * @param date
+     * @return
+     */
+    public static Calendar dateToCalendar(Date date){
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTimeInMillis(date.getTime());
+        return calendar;
+    }
+    /**
+     * calendar 转 date 
+     * @author oddoson
+     * @param date
+     * @return
+     */
+    public static Date calendarToDate(Calendar cal){
+        return new Date(cal.getTimeInMillis());
     }
     
     /**

@@ -34,7 +34,6 @@ public class CommonViewHolder
      */
     protected CommonViewHolder(Context context, int layoutId)
     {
-        // 初始化布局, 装载ContentView
         LayoutInflater mInflater = LayoutInflater.from(context);
         mContentView = mInflater.inflate(layoutId, null);
         if (mInflater == null || mContentView == null)
@@ -47,9 +46,7 @@ public class CommonViewHolder
     }
     
     /**
-     * 获取CommonViewHolder，当convertView为空的时候从布局xml装载item view,
-     * 并且将该CommonViewHolder设置为convertView的tag, 便于复用convertView.
-     * 
+     * 获取CommonViewHolder，当convertView为空的时候从布局xml装载item,view,
      * @param context
      *            Context
      * @param convertView
@@ -69,7 +66,7 @@ public class CommonViewHolder
     }
     
     /**
-     * @return 当前项的convertView, 在构造函数中装载
+     * @return 当前项的convertView
      */
     public View getConvertView()
     {
