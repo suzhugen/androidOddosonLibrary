@@ -190,8 +190,8 @@ public class DateUtils
      */
     public static String getWeekString(Calendar calendar,String prdfix)
     {
-        int week=calendar.get(Calendar.DAY_OF_WEEK);
-        String w=prdfix+weeks[week];
+        int week=getWeek(calendar);
+        String w=prdfix+weeks[week-1];
         return w;
     }
     /**
