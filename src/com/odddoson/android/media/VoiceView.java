@@ -40,7 +40,7 @@ public class VoiceView extends FrameLayout implements OnClickListener,
     String path;
     Handler mHandler;
     
-    private boolean isPause=false;
+    private boolean isPause = false;
     
     public VoiceView(Context context)
     {
@@ -84,10 +84,12 @@ public class VoiceView extends FrameLayout implements OnClickListener,
                     voicePlayerManager.seekToPercent(seekBar.getProgress());
                 }
             }
+            
             @Override
             public void onStartTrackingTouch(SeekBar seekBar)
             {
             }
+            
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser)
@@ -114,8 +116,22 @@ public class VoiceView extends FrameLayout implements OnClickListener,
     
     void setTimeView()
     {
-        timeTextView.setText(StringUtil.parse2Time(voicePlayerManager
-                .getLength()));
+        timeTextView.setText(parseTime(voicePlayerManager.getLength()));
+    }
+    
+    /**
+     * 00:00的时间格式
+     * 
+     * @param time
+     * @return
+     */
+    String parseTime(int time)
+    {
+        time /= 1000;
+        int minute = time / 60;
+        int second = time % 60;
+        minute %= 60;
+        return String.format("%02d:%02d", minute, second);
     }
     
     /**
@@ -239,15 +255,15 @@ public class VoiceView extends FrameLayout implements OnClickListener,
     @Override
     public void onClick(View v)
     {
-        switch (v.getId())
+        if (v.getId()==R.id.play_btn)
         {
-        case R.id.play_btn:
-            if (voicePlayerManager.isStart()&&!voicePlayerManager.isPrepare())
+            if (voicePlayerManager.isStart() && !voicePlayerManager.isPrepare())
             {
-                //资源未准备好。
+                // 资源未准备好。
                 stop();
             }
-            else if (voicePlayerManager.isOk()&&voicePlayerManager.isPlaying())
+            else if (voicePlayerManager.isOk()
+                    && voicePlayerManager.isPlaying())
             {
                 pause();
             }
@@ -259,9 +275,6 @@ public class VoiceView extends FrameLayout implements OnClickListener,
                 else
                     play();
             }
-            break;
-        default:
-            break;
         }
     }
     
