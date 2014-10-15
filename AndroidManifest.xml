@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     
     
-    <uses-sdk android:minSdkVersion="7"  />
+    <uses-sdk android:minSdkVersion="14"  />
 
     <application>
         <activity

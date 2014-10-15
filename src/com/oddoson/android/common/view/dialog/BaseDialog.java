@@ -3,27 +3,42 @@ package com.oddoson.android.common.view.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Window;
+
+import com.oddoson.android.common.R;
 
 public class BaseDialog extends Dialog{
 	
-	public BaseDialog(Context context) {
-		super(context);
-		// TODO Auto-generated constructor stub
+	private Context context;
+	
+	private void init(){
+		requestWindowFeature(Window.FEATURE_NO_TITLE);	
+		getWindow().setBackgroundDrawableResource(R.color.transparent);
+		setCanceledOnTouchOutside(false);
+		setCancelable(false);
 	}
-	protected BaseDialog(Context context, boolean cancelable,
-			OnCancelListener cancelListener) {
-		super(context, cancelable, cancelListener);
-		// TODO Auto-generated constructor stub
+	
+	public BaseDialog(Context context) {
+		//一定要加上主题，否则不显示
+		super(context,com.oddoson.android.common.R.style.Dialog_bocop);
+		this.context=context;
+		init();
 	}
 
 	public BaseDialog(Context context, int theme) {
 		super(context, theme);
-		// TODO Auto-generated constructor stub
+		this.context=context;
+		init();
+	}	
+	
+	public Context getCurrentContext(){
+		return context;
 	}
+	
 
 	@Override
 	public void dismiss() {
-		if (((Activity)getContext()).isFinishing()) {
+		if (((Activity)context).isFinishing()) {
 			return;
 		}
 		super.dismiss();
