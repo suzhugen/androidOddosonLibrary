@@ -20,15 +20,14 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
             android:maxWidth="300dp"
-            android:text="14sp\n14sp\n14sp\n14sp\n14sp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="内容"
             android:textColor="@color/dimgrey"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/textView2"
+        <ImageView
+            android:id="@+id/imageView1"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/line" />
 
         <LinearLayout
@@ -54,6 +53,7 @@
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
                 android:text="确定"
+                android:textColor="#676767"
                 android:textSize="14sp" />
 
             <Button
@@ -70,6 +70,7 @@
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
                 android:text="取消"
+                android:textColor="#676767"
                 android:textSize="14sp" />
 
         </LinearLayout>

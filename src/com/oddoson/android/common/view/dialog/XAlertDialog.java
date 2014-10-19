@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.oddoson.android.common.R;
 
-public class XAlertDialog extends BaseDialog {
+public class XAlertDialog extends BasicDialog {
 
 	private Button button1, button2;
 	private TextView contentTextView;

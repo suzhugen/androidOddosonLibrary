@@ -3,6 +3,7 @@ package com.oddoson.android.common.view.dialog;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,7 +20,7 @@ import com.oddoson.android.common.util.SystemInfoUtils;
  * @author oddoson
  *
  */
-public class LoadingDialog extends BaseDialog {
+public class LoadingDialog extends BasicDialog {
 	private static final int CHANGE_TITLE_WHAT = 1;
 	private static final int CHNAGE_TITLE_DELAYMILLIS = 300;
 	private static final int MAX_SUFFIX_NUMBER = 3;
@@ -86,7 +87,16 @@ public class LoadingDialog extends BaseDialog {
 		initAnim();
 		getWindow().setWindowAnimations(R.anim.alpha_in);
 	}
-	
+	/**
+	 * 设置中间logo
+	 * @param resid
+	 */
+	public void setLogo(int resid){
+	    iv_route.setImageResource(resid);
+	}
+	public void setLogo(Drawable drawable){
+        iv_route.setImageDrawable(drawable);
+    }
 	
 	private void initAnim() {
 		mAnim = new RotateAnimation(360, 0,Animation.RESTART, 0.5f, Animation.RESTART,0.5f);

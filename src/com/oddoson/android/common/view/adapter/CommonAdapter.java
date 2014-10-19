@@ -62,6 +62,10 @@ public abstract class CommonAdapter<T> extends BaseAdapter
         mItemLayoutId = itemLayoutResId;  
         mData = dataSource;  
     }  
+    
+    public Context getContext(){
+        return mContext;
+    }
   
     /** 
      * 检查参数的有效性 
