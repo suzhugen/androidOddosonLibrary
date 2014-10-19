@@ -1,4 +1,4 @@
-package com.odddoson.android.media;
+package com.oddoson.android.media;
 
 import java.io.File;
 import java.io.FileOutputStream;

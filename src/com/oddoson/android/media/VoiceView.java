@@ -1,4 +1,4 @@
-package com.odddoson.android.media;
+package com.oddoson.android.media;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -15,8 +15,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.odddoson.android.media.VoicePlayerManager.VoicePlayCallback;
 import com.oddoson.android.common.R;
+import com.oddoson.android.media.VoicePlayerManager.VoicePlayCallback;
 
 /**
  * 播放器view
