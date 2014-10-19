@@ -14,8 +14,8 @@ public class BasicDialog extends Dialog{
 	private void init(){
 		requestWindowFeature(Window.FEATURE_NO_TITLE);	
 		getWindow().setBackgroundDrawableResource(R.color.transparent);
-		setCanceledOnTouchOutside(false);
-		setCancelable(false);
+		setCanceledOnTouchOutside(true);
+		setCancelable(true);
 	}
 	
 	public BasicDialog(Context context) {
@@ -35,6 +35,15 @@ public class BasicDialog extends Dialog{
 		return context;
 	}
 	
+    @Override
+    public void show()
+    {
+        if (((Activity) getCurrentContext()).isFinishing())
+        {
+            return;
+        }
+        super.show();
+    }
 
 	@Override
 	public void dismiss() {
