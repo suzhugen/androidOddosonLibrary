@@ -1,7 +1,7 @@
 package com.oddoson.android.common.util;
 
 /**
- * 类库配置
+ * 类库配置，常量配置
  * @author oddoson
  *
  */
@@ -11,7 +11,8 @@ public class OddosonConfig
     private static String sdLogPath="/oddoson/log/";//sd日志地址
     private static String sdLogFileName="log.txt";//sd日志地址
     
-    
+    public static int screen_width = 0;
+    public static int screen_height = 0;
     
     
     public static boolean isDebug()

@@ -1,18 +1,8 @@
 package com.oddoson.android.common.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.oddoson.android.common.security.MD5;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +10,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
-import android.content.pm.Signature;
-import android.util.DisplayMetrics;
+
+import com.oddoson.android.common.security.MD5;
 
 public class AppsUtils
 {
