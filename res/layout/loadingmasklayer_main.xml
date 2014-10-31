@@ -64,7 +64,8 @@
             android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/comment_btn_selector"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_common_bg"
             android:text=" 点击重试 "
             android:textColor="#808080"
             android:textSize="14sp" />

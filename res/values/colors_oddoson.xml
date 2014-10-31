@@ -330,5 +330,7 @@
     <color name="translucency">#e0000000</color>
     <color name="transparent">#00000000</color>
   
+    <color name="trans_66">#66eeeeee</color>
+    <color name="eeeeee">#eeeeee</color>
 
 </resources>
