@@ -63,10 +63,6 @@ public abstract class CommonAdapter<T> extends BaseAdapter
         mData = dataSource;  
     }  
     
-    public Context getContext(){
-        return mContext;
-    }
-  
     /** 
      * 检查参数的有效性 
      *  
@@ -88,7 +84,15 @@ public abstract class CommonAdapter<T> extends BaseAdapter
         mData = dataSource;
         notifyDataSetChanged();
     }
+    
+    public List<T> getDatas(){
+        return mData;
+    }
+    public Context getContext(){
+        return mContext;
+    }
   
+    
     /** 
      * 返回数据的总数 
      */  
@@ -96,6 +100,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter
     public int getCount() {  
         return mData.size();  
     }  
+    
   
     /** 
      * 返回position位置的数据 
