@@ -15,7 +15,7 @@ import com.oddoson.android.common.R;
  * @author oddoson
  * 
  */
-public class LoadingDialog extends BasicDialog
+public class LoadingDialog extends BaseDialog
 {
     private static final int CHANGE_TITLE_WHAT = 1;
     private static final int CHNAGE_TITLE_DELAYMILLIS = 300;

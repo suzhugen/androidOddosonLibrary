@@ -21,7 +21,7 @@ import com.oddoson.android.common.util.SystemInfoUtils;
  * @author oddoson
  * 
  */
-public class LoadingLogoDialog extends BasicDialog
+public class LoadingLogoDialog extends BaseDialog
 {
     private static final int CHANGE_TITLE_WHAT = 1;
     private static final int CHNAGE_TITLE_DELAYMILLIS = 300;
