@@ -1,5 +1,7 @@
 package com.oddoson.android.common.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
@@ -87,4 +89,24 @@ public class BitmapUtil {
 			return upperBound;
 		}
 	}
+	
+	public static byte[] bitmapToByte(Bitmap bitmap){
+		ByteArrayOutputStream bos=new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+		return bos.toByteArray();
+	}
+	public static byte[] bitmapToByte(String path){
+		File file=new File(path);
+		if (!file.exists()) {
+			return null;
+		}
+		Bitmap bitmap=BitmapFactory.decodeFile(path);
+		ByteArrayOutputStream bos=new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+		return bos.toByteArray();
+	}
+	public static Bitmap byteToBitmap(byte[] data){
+		return BitmapFactory.decodeByteArray(data, 0, data.length);
+	}
+	
 }

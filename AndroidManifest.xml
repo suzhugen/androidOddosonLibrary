@@ -16,8 +16,10 @@
     <!-- 允许一个程序广播常用intents -->
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     
-    
-    <uses-sdk android:minSdkVersion="14"  />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-sdk android:minSdkVersion="14" />
 
     <application>
         <activity
@@ -29,6 +31,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.zbar.lib.CaptureActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.oddoson.android.common.ui.QrCodePreviewActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
