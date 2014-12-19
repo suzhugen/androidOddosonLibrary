@@ -15,7 +15,7 @@ import android.util.Log;
  *
  * 描述: 闪光灯管理
  */
-final class FlashlightManager {
+public final class FlashlightManager {
 
   private static final String TAG = FlashlightManager.class.getSimpleName();
 
@@ -110,11 +110,11 @@ final class FlashlightManager {
     }
   }
 
-  static void enableFlashlight() {
+  public static void enableFlashlight() {
     setFlashlight(true);
   }
 
-  static void disableFlashlight() {
+  public static void disableFlashlight() {
     setFlashlight(false);
   }
 

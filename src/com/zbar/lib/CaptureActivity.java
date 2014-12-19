@@ -47,6 +47,8 @@ import com.oddoson.android.common.view.XToast;
  * </br>  
  * 1、 uses-permission android:name="android.permission.CAMERA"
  * 2、uses-permission android:name="android.permission.VIBRATE" 
+ * 3、uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+   4、uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
  *
  */
 public class CaptureActivity extends Activity implements Callback, OnClickListener {
@@ -194,20 +196,18 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
 	}
 
 	private void parseResult(String result) {
-		if (result.startsWith("http://")) {
+		if (result.startsWith("http://")||result.startsWith("https://")) {
 			// 网页，或下载
 			Intent intent = new Intent();
 			intent.setAction("android.intent.action.VIEW");
 			Uri content_url = Uri.parse(result);
 			intent.setData(content_url);
 			startActivity(intent);
-			finish();
 			return;
 		}
 		Intent intent = new Intent(CaptureActivity.this, QrCodePreviewActivity.class);
 		intent.putExtra("msg", result);
 		startActivity(intent);
-		finish();
 	}
 
 	public static Map<String, String> urlRequest(String URL) {
