@@ -39,9 +39,9 @@ public class Config
     public static final int ASCII = 3;
 
     /** Minimum data length for valid decode. */
-    public static final int MIN_LEN = 0x20;
+    public static final int MIN_LEN = 0x1;
     /** Maximum data length for valid decode. */
-    public static final int MAX_LEN = 0x21;
+    public static final int MAX_LEN = 0x1;
 
     /** Required video consistency frames. */
     public static final int UNCERTAINTY = 0x40;
@@ -50,7 +50,7 @@ public class Config
     public static final int POSITION = 0x80;
 
     /** Image scanner vertical scan density. */
-    public static final int X_DENSITY = 0x100;
+    public static  int X_DENSITY = 0x1;//解码清晰度，越小越精细
     /** Image scanner horizontal scan density. */
-    public static final int Y_DENSITY = 0x101;
+    public static  int Y_DENSITY = 0x1; //解码清晰度
 }

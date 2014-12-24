@@ -2,9 +2,12 @@ package com.oddoson.android.camera;
 
 import java.util.regex.Pattern;
 
+import com.oddoson.android.common.R;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
@@ -19,7 +22,7 @@ import android.view.WindowManager;
  *
  * 描述: 相机参数配置
  */
-final class CameraConfigurationManager {
+public final class CameraConfigurationManager {
 
 	private static final String TAG = CameraConfigurationManager.class
 			.getSimpleName();
@@ -33,12 +36,12 @@ final class CameraConfigurationManager {
 	private int previewFormat;
 	private String previewFormatString;
 
-	CameraConfigurationManager(Context context) {
+	public CameraConfigurationManager(Context context) {
 		this.context = context;
 	}
 
 	@SuppressWarnings("deprecation")
-	void initFromCameraParameters(Camera camera) {
+	public void initFromCameraParameters(Camera camera) {
 		Camera.Parameters parameters = camera.getParameters();
 		previewFormat = parameters.getPreviewFormat();
 		previewFormatString = parameters.get("preview-format");
@@ -58,7 +61,7 @@ final class CameraConfigurationManager {
 		cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
 	}
 	
-	void setDesiredCameraParameters(Camera camera) {
+	public void setDesiredCameraParameters(Camera camera) {
 		Camera.Parameters parameters = camera.getParameters();
 		parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
 		setFlash(parameters);
@@ -247,5 +250,21 @@ final class CameraConfigurationManager {
 			parameters.set("taking-picture-zoom", tenDesiredZoom);
 		}
 	}
-
+	
+	public static void flashLightOff(Camera mCamera) {
+		FlashlightManager.disableFlashlight();
+		if (mCamera != null) {
+			Parameters parameter = mCamera.getParameters();
+			parameter.setFlashMode(Parameters.FLASH_MODE_OFF);
+			mCamera.setParameters(parameter);
+		}
+	}
+	public static void flashLightOn(Camera mCamera) {
+		FlashlightManager.enableFlashlight();
+		if (mCamera != null) {
+			Parameters parameter = mCamera.getParameters();
+			parameter.setFlashMode(Parameters.FLASH_MODE_TORCH);
+			mCamera.setParameters(parameter);
+		}
+	}
 }

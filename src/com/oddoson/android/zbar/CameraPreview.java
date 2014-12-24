@@ -5,13 +5,19 @@
  */
 package com.oddoson.android.zbar;
 
+import com.oddoson.android.camera.CameraConfigurationManager;
+import com.oddoson.android.common.util.LogUtil;
+
 import android.content.Context;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
@@ -53,19 +59,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        // The Surface has been created, now tell the camera where to draw the preview.
-        try {
-        	if (mCamera!=null) {
-        		mCamera.setPreviewDisplay(holder);
-			}
-        } catch (Exception e) {
-            Log.d("DBG", "Error setting camera preview: " + e.getMessage());
-        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // Camera preview released in activity
-    	mCamera=null;
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -80,18 +76,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if (mCamera==null) {
     		return;
 		}
-        
-        // stop preview before making changes
         try {
-            mCamera.stopPreview();
-        } catch (Exception e){
-          // ignore: tried to stop a non-existent preview
-        }
-
-        try {
-            // Hard code camera surface rotation 90 degs to match Activity view in portrait
+        	CameraConfigurationManager manager=new CameraConfigurationManager(getContext());
+            manager.initFromCameraParameters(mCamera);
+            manager.setDesiredCameraParameters(mCamera);
+        	// Hard code camera surface rotation 90 degs to match Activity view in portrait
             mCamera.setDisplayOrientation(90);
-
             mCamera.setPreviewDisplay(mHolder);
             mCamera.setPreviewCallback(previewCallback);
             mCamera.startPreview();
@@ -100,4 +90,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d("DBG", "Error starting camera preview: " + e.getMessage());
         }
     }
+    
+	
 }

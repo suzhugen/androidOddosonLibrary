@@ -332,5 +332,8 @@
   
     <color name="trans_66">#66eeeeee</color>
     <color name="eeeeee">#eeeeee</color>
+    
+    <color name="li">#EFEFEF</color>
+    <color name="lii">#afafaf</color>
 
 </resources>
